@@ -43,7 +43,8 @@ def parseC(line):
     return '111' + comp + dest + jump
 # parseC("D=D-A")
 # parseC("0;JMP")
-#
+
+
 def process(lines):
     # hacklines = [line.replace(' ', '').replace('\n', '') for line in lines]
     # hacklines = [re.sub('//.*', '', line) for line in hacklines]
@@ -53,7 +54,7 @@ def process(lines):
         variables['R' + str(i)] = i
     i = 0
     nobracketlines = []
-    for line in lines:
+    for line in lines:  # clean, and save line numbers
         line = line.replace(' ', '').replace('\n', '')
         line = re.sub('//.*', '', line)
         if not line:

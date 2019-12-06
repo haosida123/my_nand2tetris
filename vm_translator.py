@@ -54,43 +54,91 @@ class Arithmetic():
 
 
 class Memory():
+    def __init__(self, vm_name):
+        self.vm_name = vm_name
+
     @staticmethod
     def types():
         return ("push", "pop")
 
     @staticmethod
-    def push(segment, index):
-        if segment is None:
-            return "@{},D=A,@SP,M=M+1,A=M-1,M=D".format(index).split(',')
+    def push(variable, index, addr):
+        if addr is not None:
+            if index is None:  # constant
+                return "@{},D=A,@SP,M=M+1,A=M-1,M=D".format(addr).split(',')
+            elif index == '0':  # pointer/static
+                return "@{},D=M,@SP,M=M+1,A=M-1,M=D".format(addr).split(',')
+            else:  # temp
+                return "@{0},D=A,@{1},A=A+D,D=M,@SP,M=M+1,A=M-1,M=D".format(
+                    addr, index).split(',')
+        else:
+            return "@{0},D=M,@{1},A=A+D,D=M,@SP,M=M+1,A=M-1,M=D".format(
+                variable, index).split(',')
 
     @staticmethod
-    def pop(segment, index):
-        if segment is None:
-            return "@{},D=A,@SP,M=M-1,A=M,M=D".format(index).split(',')
+    def pop(variable, index, addr):
+        if addr is not None:
+            if index == '0':  # pointer/static
+                return "@SP,AM=M-1,D=M,@{},M=D".format(addr).split(',')
+            else:  # temp
+                line_get = "@{0},D=A,@{1},D=A+D,@tmp_addr,M=D,@SP,AM=M-1,D=M,"
+                line_put = "@tmp_addr,A=M,M=D"
+                return (line_get + line_put).format(addr, index).split(',')
+        else:
+            line_get = "@{0},D=M,@{1},D=A+D,@tmp_addr,M=D,@SP,AM=M-1,D=M,"
+            line_put = "@tmp_addr,A=M,M=D"
+            return (line_get + line_put).format(variable, index).split(',')
 
-    @staticmethod
-    def cmd(line):
+    def cmd(self, line):
         line = line.split(' ')
         # print(line)
         assert len(line) == 3
-        segment = Memory.process_segment(line[1])
+        variable, index, addr = self.process_segment(line[1], line[2])
         if line[0] == "push":
-            return Memory.push(segment, line[2])
+            return self.push(variable, index, addr)
         elif line[0] == "pop":
-            return Memory.pop(segment, line[2])
+            return self.pop(variable, index, addr)
         else:
             raise ValueError
 
-    @staticmethod
-    def process_segment(segment):
+    def process_segment(self, segment, idx):
+        variable, index, address = None, None, None
         if segment == 'constant':
-            return None
+            # addr = idx, *SP = addr, SP++
+            address = idx
+
+        elif segment == 'local':
+            # *SP = *(*LCL + i), SP++--
+            # *(*LCL + i) = *SP
+            variable, index = 'LCL', idx
+        elif segment == 'argument':
+            variable, index = 'ARG', idx
+        elif segment == 'this':
+            variable, index = 'THIS', idx
+        elif segment == 'that':
+            variable, index = 'THAT', idx
+
+        elif segment == 'temp':  # RAM[5-12]
+            # addr = 5 + i, *SP = *addr, SP++--
+            address, index = '5', idx
+        elif segment == 'pointer':
+            # *SP = *THIS/THAT, SP++
+            # SP--, *THIS/ = *SP
+            address, index = {'0': 'THIS', '1': 'THAT'}[idx], '0'
+        elif segment == 'static':  # RAM[16-255]
+            # addr = vm_file.idx, *SP = *addr, SP++--
+            address, index = self.vm_name + '.{}'.format(idx), '0'
+        else:
+            raise TypeError
+        # RAM[13-15]: general purpose
+        return variable, index, address
 
 
-def process(lines):
+def process(lines, vm_name):
     # hacklines = [line.replace(' ', '').replace('\n', '') for line in lines]
     # hacklines = [re.sub('//.*', '', line) for line in hacklines]
     asmlines = []
+    memory = Memory(vm_name)
     arithmetic = Arithmetic()
     for line in lines:
         line = line.replace('\n', '')
@@ -100,9 +148,9 @@ def process(lines):
         line = re.sub('//.*', '', line)
         if not line:
             continue
-        if line.startswith(Memory.types()):
+        if line.startswith(memory.types()):
             asmlines.append("// " + line)
-            asmlines.extend(Memory.cmd(line))
+            asmlines.extend(memory.cmd(line))
         elif line.startswith(arithmetic.types()):
             asmlines.append("// " + line)
             asmlines.extend(arithmetic.cmd(line))
@@ -119,13 +167,18 @@ def process(lines):
 
 def translate(fpath):
     if isinstance(fpath, list):
+        successes = []
         for path in fpath:
-            translate(path)
+            successes.append(translate(path))
+        if all(successes):
+            print('\nAll success.')
         return
     print('\nprocessing', fpath)
     with open(fpath, 'r') as f:
         vmlines = f.readlines()
-    asmlines = process(vmlines)
+    # vmname = os.path.split(fpath)[1].replace('.vm', '')
+    vmname = fpath.replace('/', '.').replace('\\', '.').replace('.vm', '')
+    asmlines = process(vmlines, vmname)
     # print('\n'.join(hacklines))
     outpath = fpath.replace('.vm', '.asm')
     with open(outpath, 'w') as f:
@@ -134,7 +187,9 @@ def translate(fpath):
     testfile = fpath.replace(".vm", ".tst")
     bat = 'tools\\CPUEmulator.bat'
     if os.path.exists(testfile) and os.path.exists(bat):
-        print(subprocess.getstatusoutput([bat, testfile])[1])
+        result = subprocess.getstatusoutput([bat, testfile])[1]
+        print(result)
+        return result.startswith("End of script - Comparison ended success")
     return
 
 
