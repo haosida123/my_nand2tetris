@@ -1,3 +1,4 @@
+(StaticTest.vm)
 // This file is part of www.nand2tetris.org
 // and the book "The Elements of Computing Systems"
 // by Nisan and Schocken, MIT Press.
@@ -28,29 +29,29 @@
    @SP
    AM=M-1
    D=M
-   @07.MemoryAccess.StaticTest.StaticTest.8
+   @StaticTest.8
    M=D
 // pop static 3
    @SP
    AM=M-1
    D=M
-   @07.MemoryAccess.StaticTest.StaticTest.3
+   @StaticTest.3
    M=D
 // pop static 1
    @SP
    AM=M-1
    D=M
-   @07.MemoryAccess.StaticTest.StaticTest.1
+   @StaticTest.1
    M=D
 // push static 3
-   @07.MemoryAccess.StaticTest.StaticTest.3
+   @StaticTest.3
    D=M
    @SP
    M=M+1
    A=M-1
    M=D
 // push static 1
-   @07.MemoryAccess.StaticTest.StaticTest.1
+   @StaticTest.1
    D=M
    @SP
    M=M+1
@@ -63,7 +64,7 @@
    A=A-1
    M=M-D
 // push static 8
-   @07.MemoryAccess.StaticTest.StaticTest.8
+   @StaticTest.8
    D=M
    @SP
    M=M+1
@@ -75,6 +76,3 @@
    D=M
    A=A-1
    M=D+M
-(END)
-   @END
-   0;JMP

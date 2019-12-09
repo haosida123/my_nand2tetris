@@ -1,3 +1,4 @@
+(SimpleAdd.vm)
 // This file is part of www.nand2tetris.org
 // and the book "The Elements of Computing Systems"
 // by Nisan and Schocken, MIT Press.
@@ -23,6 +24,3 @@
    D=M
    A=A-1
    M=D+M
-(END)
-   @END
-   0;JMP

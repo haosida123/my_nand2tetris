@@ -1,3 +1,4 @@
+(PointerTest.vm)
 // This file is part of www.nand2tetris.org
 // and the book "The Elements of Computing Systems"
 // by Nisan and Schocken, MIT Press.
@@ -42,12 +43,12 @@
    D=M
    @2
    D=A+D
-   @tmp_addr
+   @PointerTest$tmp_addr
    M=D
    @SP
    AM=M-1
    D=M
-   @tmp_addr
+   @PointerTest$tmp_addr
    A=M
    M=D
 // push constant 46
@@ -62,12 +63,12 @@
    D=M
    @6
    D=A+D
-   @tmp_addr
+   @PointerTest$tmp_addr
    M=D
    @SP
    AM=M-1
    D=M
-   @tmp_addr
+   @PointerTest$tmp_addr
    A=M
    M=D
 // push pointer 0
@@ -122,6 +123,3 @@
    D=M
    A=A-1
    M=D+M
-(END)
-   @END
-   0;JMP

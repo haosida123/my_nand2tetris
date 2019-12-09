@@ -1,3 +1,4 @@
+(BasicTest.vm)
 // This file is part of www.nand2tetris.org
 // and the book "The Elements of Computing Systems"
 // by Nisan and Schocken, MIT Press.
@@ -15,12 +16,12 @@
    D=M
    @0
    D=A+D
-   @tmp_addr
+   @BasicTest$tmp_addr
    M=D
    @SP
    AM=M-1
    D=M
-   @tmp_addr
+   @BasicTest$tmp_addr
    A=M
    M=D
 // push constant 21
@@ -42,12 +43,12 @@
    D=M
    @2
    D=A+D
-   @tmp_addr
+   @BasicTest$tmp_addr
    M=D
    @SP
    AM=M-1
    D=M
-   @tmp_addr
+   @BasicTest$tmp_addr
    A=M
    M=D
 // pop argument 1
@@ -55,12 +56,12 @@
    D=M
    @1
    D=A+D
-   @tmp_addr
+   @BasicTest$tmp_addr
    M=D
    @SP
    AM=M-1
    D=M
-   @tmp_addr
+   @BasicTest$tmp_addr
    A=M
    M=D
 // push constant 36
@@ -75,12 +76,12 @@
    D=M
    @6
    D=A+D
-   @tmp_addr
+   @BasicTest$tmp_addr
    M=D
    @SP
    AM=M-1
    D=M
-   @tmp_addr
+   @BasicTest$tmp_addr
    A=M
    M=D
 // push constant 42
@@ -102,12 +103,12 @@
    D=M
    @5
    D=A+D
-   @tmp_addr
+   @BasicTest$tmp_addr
    M=D
    @SP
    AM=M-1
    D=M
-   @tmp_addr
+   @BasicTest$tmp_addr
    A=M
    M=D
 // pop that 2
@@ -115,12 +116,12 @@
    D=M
    @2
    D=A+D
-   @tmp_addr
+   @BasicTest$tmp_addr
    M=D
    @SP
    AM=M-1
    D=M
-   @tmp_addr
+   @BasicTest$tmp_addr
    A=M
    M=D
 // push constant 510
@@ -135,12 +136,12 @@
    D=A
    @6
    D=A+D
-   @tmp_addr
+   @BasicTest$tmp_addr
    M=D
    @SP
    AM=M-1
    D=M
-   @tmp_addr
+   @BasicTest$tmp_addr
    A=M
    M=D
 // push local 0
@@ -233,6 +234,3 @@
    D=M
    A=A-1
    M=D+M
-(END)
-   @END
-   0;JMP

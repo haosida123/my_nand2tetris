@@ -1,3 +1,4 @@
+(StackTest.vm)
 // This file is part of www.nand2tetris.org
 // and the book "The Elements of Computing Systems"
 // by Nisan and Schocken, MIT Press.
@@ -26,11 +27,11 @@
    D=M
    A=A-1
    D=M-D
-   @EQ_TRUE_0
+   @StackTest$EQ_TRUE_0
    D;JEQ
    @bool
    M=0
-(EQ_TRUE_0)
+(StackTest$EQ_TRUE_0)
    @bool
    D=M
    @SP
@@ -58,11 +59,11 @@
    D=M
    A=A-1
    D=M-D
-   @EQ_TRUE_1
+   @StackTest$EQ_TRUE_1
    D;JEQ
    @bool
    M=0
-(EQ_TRUE_1)
+(StackTest$EQ_TRUE_1)
    @bool
    D=M
    @SP
@@ -90,11 +91,11 @@
    D=M
    A=A-1
    D=M-D
-   @EQ_TRUE_2
+   @StackTest$EQ_TRUE_2
    D;JEQ
    @bool
    M=0
-(EQ_TRUE_2)
+(StackTest$EQ_TRUE_2)
    @bool
    D=M
    @SP
@@ -122,11 +123,11 @@
    D=M
    A=A-1
    D=M-D
-   @LT_TRUE_0
+   @StackTest$LT_TRUE_0
    D;JLT
    @bool
    M=0
-(LT_TRUE_0)
+(StackTest$LT_TRUE_0)
    @bool
    D=M
    @SP
@@ -154,11 +155,11 @@
    D=M
    A=A-1
    D=M-D
-   @LT_TRUE_1
+   @StackTest$LT_TRUE_1
    D;JLT
    @bool
    M=0
-(LT_TRUE_1)
+(StackTest$LT_TRUE_1)
    @bool
    D=M
    @SP
@@ -186,11 +187,11 @@
    D=M
    A=A-1
    D=M-D
-   @LT_TRUE_2
+   @StackTest$LT_TRUE_2
    D;JLT
    @bool
    M=0
-(LT_TRUE_2)
+(StackTest$LT_TRUE_2)
    @bool
    D=M
    @SP
@@ -218,11 +219,11 @@
    D=M
    A=A-1
    D=M-D
-   @GT_TRUE_0
+   @StackTest$GT_TRUE_0
    D;JGT
    @bool
    M=0
-(GT_TRUE_0)
+(StackTest$GT_TRUE_0)
    @bool
    D=M
    @SP
@@ -250,11 +251,11 @@
    D=M
    A=A-1
    D=M-D
-   @GT_TRUE_1
+   @StackTest$GT_TRUE_1
    D;JGT
    @bool
    M=0
-(GT_TRUE_1)
+(StackTest$GT_TRUE_1)
    @bool
    D=M
    @SP
@@ -282,11 +283,11 @@
    D=M
    A=A-1
    D=M-D
-   @GT_TRUE_2
+   @StackTest$GT_TRUE_2
    D;JGT
    @bool
    M=0
-(GT_TRUE_2)
+(StackTest$GT_TRUE_2)
    @bool
    D=M
    @SP
@@ -359,6 +360,3 @@
    @SP
    A=M-1
    M=!M
-(END)
-   @END
-   0;JMP
